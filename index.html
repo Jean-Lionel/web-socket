@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+	<title>Socket.IO chat</title>
+	<style>
+
+		body{
+			margin: 20px;
+			padding-top: 40px;
+		}
+
+		.block{
+			width: 400px;
+			
+			height: auto;
+			
+			margin-left: 50%;
+			margin-right: 50%;
+			transform: translate(-50%,-50%);
+			align-content: center;
+		}
+
+		input{
+			width: auto;
+	
+			border: 4px dotted #abc;
+			border-radius: 6px;
+		}
+
+		button{
+			width: auto;
+			border-radius: 10px;
+			height: 20px;
+			box-shadow: 1px 1px 1px 1px;
+		}
+
+		button:hover
+		{
+			background: #ABF;
+			cursor: pointer;
+			height: auto;
+		}
+
+		ul{
+			list-style: none;
+		}
+
+		li:nth-child(odd) {
+			background: lime;
+
+		}
+
+		#messages{
+			font-size: 12px;
+			font-family: "Gill Sans", sans-serif;
+			width: 100px;
+			overflow: hidden;
+		}
+
+
+
+
+	</style>
+</head>
+<body>
+	<div class="block">
+		<h2>A simple social Network</h2>
+		<ul id="messages"></ul>
+		<form action="">
+			<input id="m" autocomplete="off" /><button>Send</button>
+		</form>
+		
+	</div>
+
+
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script>
+
+		
+
+		$(function (){
+			var socket = io();
+
+			$('form').submit(function(event) {
+				/* Act on the event */
+				event.preventDefault();
+				socket.emit('chat message', $('#m').val());
+				$('#m').val('');
+				return false
+			});
+
+			socket.on('chat message' , (msg)=>{
+				$('#messages').append($('<li>').text(msg))
+			})
+		})
+
+	</script>
+
+</body>
+</html>
